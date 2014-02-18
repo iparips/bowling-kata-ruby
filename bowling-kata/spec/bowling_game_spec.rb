@@ -1,6 +1,6 @@
 require 'bowling_game'
 
-describe BowlingGame do
+describe BowlingGame, 'score' do
 
   context 'simple case, no spares or strikes' do
 
@@ -9,7 +9,7 @@ describe BowlingGame do
       expect(subject.score).to eq(9)
     end
 
-    it 'is the total of 10 frames scores' do
+    it 'is sum of 10 individual rolls' do
       10.times { subject.roll_frame [1,0] }
       expect(subject.score).to eq(10)
     end
@@ -18,23 +18,32 @@ describe BowlingGame do
 
   context 'case of a spare' do
 
-    it 'it adds the next roll score to the total score twice' do
-      subject.roll_frame [5,5]
-      subject.roll_frame [1,1]
-      expect(subject.score).to eq(13)
+    let(:spare) { [5,5] }
+
+    before do
+      subject.roll_frame spare
     end
 
-    it 'is the total of 2 frames with two spares' do
-      subject.roll_frame [5,5]
-      subject.roll_frame [5,5]
-      subject.roll_frame [5,0]
-      expect(subject.score).to eq(35)
+    it 'it doubles the next roll as a bonus' do
+      subject.roll_frame [1,0]
+      expect(subject.score).to eq((10 + 1) + 1)
     end
 
-    it 'is the total of 10 frames score' do
-      10.times { subject.roll_frame [5,5] }
+    it 'calculates cumulative spares' do
+      subject.roll_frame spare
       subject.roll_frame [5,0]
-      expect(subject.score).to eq(150)
+      expect(subject.score).to eq((10 + 5) + (10 + 5) + 5 )
+    end
+  end
+
+  context 'case of a strike' do
+
+    let(:strike) { [10] }
+
+    it 'it doubles the next frames total as bonus ' do
+      subject.roll_frame strike
+      subject.roll_frame [4,2]
+      expect(subject.score).to eq( (10 + 6) + 6 )
     end
 
   end
