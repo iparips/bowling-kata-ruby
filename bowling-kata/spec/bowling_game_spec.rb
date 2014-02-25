@@ -41,6 +41,7 @@ describe BowlingGame, 'score' do
     let(:strike) { [10] }
 
     it 'it doubles the next frames total as bonus ' do
+      pending
       subject.roll_frame strike
       subject.roll_frame [4,2]
       expect(subject.score).to eq( (10 + 6) + 6 )
