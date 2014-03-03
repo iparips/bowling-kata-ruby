@@ -1,16 +1,26 @@
+require 'frame'
+
 class BowlingGame
   attr_reader :score
 
   def initialize
     @score = 0
-    @prev_roll = 0
+    @prev_frame = Frame.new([0,0])
   end
 
   def roll_frame rolls
 
-    @score += rolls[0] if @prev_roll == 10
-    @prev_roll = rolls.inject(&:+)
-    @score += @prev_roll
+    frame = Frame.new(rolls)
+
+    if @prev_frame.strike?
+      @score += frame.raw_score * 2
+    elsif @prev_frame.spare?
+      @score += frame.first_roll * 2 + frame.second_roll
+    else
+      @score += frame.raw_score
+    end
+
+    @prev_frame = frame
 
   end
 
