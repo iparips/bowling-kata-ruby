@@ -90,10 +90,3 @@ describe Frame do
 
   end
 end
-
-
-#TODO:
-
-# Refactor this test
-# what should second roll return on a strike
-#
