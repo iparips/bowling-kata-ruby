@@ -1,0 +1,3 @@
+class InvalidFrameException < StandardError
+
+end
