@@ -82,13 +82,35 @@ describe Frame do
   describe "#state" do
     let(:frame) { Frame.new([1, 2]) }
 
-    it "behaves as below" do
+    context "error cases" do
 
-      expect_error([], InvalidFrameException)
-      expect_error([1], InvalidFrameException)
-      expect_frame_yeilds([10], Strike)
-      expect_frame_yeilds([1, 2], NothingSpecial)
-      expect_frame_yeilds([5, 5], Spare)
+      error_cases = [
+          [[], InvalidFrameException],
+          [[1], InvalidFrameException]
+      ]
+
+      error_cases.each do |kase|
+
+        it "raises #{kase[1]} for #{kase[0]}" do
+          expect_error(kase[0], kase[1])
+        end
+
+      end
+    end
+
+    context "valid cases" do
+
+      valid_cases = {
+          [10]   => [ Strike,         "returns strike for 10"],
+          [1, 2] => [ NothingSpecial, "returns nothing special for [1,2]"],
+          [5, 5] => [ Spare,          "returns spare for 5,5"]
+      }
+
+      valid_cases.each do |input, output|
+        it output[1] do
+          expect_frame_yeilds(input, output[0])
+        end
+      end
 
     end
 
