@@ -2,6 +2,9 @@ require 'bowling_game'
 
 describe BowlingGame, 'score' do
 
+  let(:strike) { [10] }
+  let(:normal) { [1,5] }
+
   context 'simple case, no spares or strikes' do
 
     it 'is sum of rolls' do
@@ -37,15 +40,22 @@ describe BowlingGame, 'score' do
   end
 
   context 'case of a strike' do
-
-    let(:strike) { [10] }
-
     it 'it doubles the next frames total as bonus ' do
-      pending
       subject.roll_frame strike
       subject.roll_frame [4,2]
       expect(subject.score).to eq( (10 + 6) + 6 )
     end
 
+  end
+
+  context 'score for multiple frames' do
+    it 'calculates score based on frame states' do
+      subject.roll_frame normal
+      subject.roll_frame strike
+      subject.roll_frame normal
+      subject.roll_frame strike
+
+      expect(subject.score).to eq(6 + (10 + 6) + 6 + 10 )
+    end
   end
 end
