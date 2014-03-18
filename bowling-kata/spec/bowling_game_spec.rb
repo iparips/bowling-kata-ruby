@@ -57,5 +57,45 @@ describe BowlingGame, 'score' do
 
       expect(subject.score).to eq(6 + (10 + 6) + 6 + 10 )
     end
+
   end
+
+  context 'end game' do
+
+    it 'calculates score for no bonus roll' do
+      9.times { subject.roll_frame [0,0] }
+      subject.roll_frame [4,5]
+      expect(subject.score).to eq(9)
+    end
+
+    it 'calculates score for a spare' do
+      9.times { subject.roll_frame [0,0] }
+      subject.roll_frame [5,5,9]
+      expect(subject.score).to eq(19)
+    end
+
+    it 'calculates score for a strike followed by a spare' do
+      9.times { subject.roll_frame [0,0] }
+      subject.roll_frame [10,5,5]
+      expect(subject.score).to eq(20)
+    end
+
+    it 'calculates score a strike, followed by a roll of 10 and 5' do
+      9.times { subject.roll_frame [0,0] }
+      subject.roll_frame [10,10,5]
+      expect(subject.score).to eq(25)
+    end
+
+    it 'perfect game score' do
+      12.times { subject.roll_frame [10] }
+      expect(subject.score).to eq(300)
+    end
+
+    # TODO: ideas on approach for the next session
+    # -> small steps: get tests green with minimum red time
+    # -> calc strike scores based on the next two rolls
+
+  end
+
 end
+                       g
