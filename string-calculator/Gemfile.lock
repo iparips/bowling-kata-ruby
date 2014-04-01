@@ -1,9 +1,0 @@
-GEM
-  specs:
-    rake (10.1.1)
-
-PLATFORMS
-  ruby
-
-DEPENDENCIES
-  rake
