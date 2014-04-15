@@ -98,4 +98,3 @@ describe BowlingGame, 'score' do
   end
 
 end
-                       g
